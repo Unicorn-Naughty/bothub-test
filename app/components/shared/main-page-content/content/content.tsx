@@ -7,11 +7,11 @@ interface Props {
   className?: string;
 }
 
-export const Content: React.FC<Props> = ({ className }) => {
+export const Content: React.FC<Props> = () => {
   return (
     <ContentContainer className="flex-grow">
-      <ContentMessagesList className="flex-grow" />
-      <ContentBottomBar className="h-[120px]" />
+      <ContentMessagesList className="flex-grow overflow-hidden overflow-y-auto" />
+      <ContentBottomBar className="h-[120px] mt-5" />
     </ContentContainer>
   );
 };

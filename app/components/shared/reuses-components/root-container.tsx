@@ -1,12 +1,8 @@
-import React from 'react';
+import React from "react";
 interface Props {
- children: React.ReactNode
+  children: React.ReactNode;
 }
 
-export const RootContainer: React.FC<Props> = ({children}) => {
-  return (
-    <div className='p-4  text-white max-w-[1920px]'>
-        {children}
-    </div>
-  )
-}
+export const RootContainer: React.FC<Props> = ({ children }) => {
+  return <div className="p-4  text-white max-w-[1920px] mx-auto">{children}</div>;
+};
