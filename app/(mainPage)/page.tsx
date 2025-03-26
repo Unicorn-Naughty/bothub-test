@@ -6,6 +6,7 @@ import { Sidebar } from "@/app/components/shared/main-page-content/sidebar/sideb
 import { useAuth } from "../hooks/use-auth";
 import { cn } from "@/lib/utils";
 import ClipLoader from "react-spinners/ClipLoader";
+import { getMessagesFromChatSSE } from "../services/chats/chats";
 export default function Home() {
   const isAuthenticated = useAuth();
 
@@ -21,6 +22,7 @@ export default function Home() {
       </div>
     );
   }
+
 
   return (
     <div>

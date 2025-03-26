@@ -5,9 +5,11 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   messagesPage?: boolean;
   placeholder: string;
+  handlePostMessageToChat: () => void;
 }
 
 export const Input: React.FC<Props> = ({
+  handlePostMessageToChat,
   messagesPage,
   placeholder,
   className,
@@ -24,7 +26,10 @@ export const Input: React.FC<Props> = ({
         placeholder={placeholder}
       />
       {messagesPage && (
-        <button className="absolute right-[20px] top-0 bottom-0 w-[38px] flex items-center justify-center">
+        <button
+          onClick={handlePostMessageToChat}
+          className="absolute right-[20px] top-0 bottom-0 w-[38px] flex items-center justify-center"
+        >
           <Image
             alt="send-icon"
             width={38}

@@ -12,24 +12,28 @@ interface Props {
 }
 
 export const SidebarChat: React.FC<Props> = ({ className, chat }) => {
-  const deleteChat = chatsStoreZustand((state) => state.deleteChat);
+  const { deleteChat, selectChat } = chatsStoreZustand((state) => state);
 
   const token = userStoreZustand((state) => state.user.token);
-  const fetchMessages = oneChatMessagesStoreZustand(
-    (state) => state.fetchMessage
+  const fetchMessage= oneChatMessagesStoreZustand(
+    (state) => state.getMessageFromChatSSE
   );
 
   const handleDeleteChat = (id: string, token: string) => {
     deleteChat(token, id);
   };
 
-  const handleFetchMessages = () => {
-    fetchMessages(token, chat.id);
+  const handleFetchMessages = (id: string) => {
+    selectChat(id);
+    fetchMessage(token, id);
   };
 
   return (
     <li className={cn("flex items-center justify-between p-2", className)}>
-      <div onClick={handleFetchMessages} className="flex items-center gap-2 cursor-pointer">
+      <div
+        onClick={() => handleFetchMessages(chat.id)}
+        className="flex items-center gap-2 cursor-pointer"
+      >
         <MessageSquare className="size-[18px] text-helperTextColor font-medium" />
 
         <blockquote>

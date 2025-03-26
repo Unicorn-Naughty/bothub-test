@@ -2,15 +2,56 @@ import React from "react";
 import { ContentDropdownComponent } from "./content-dropdown-component";
 import { Input } from "../../../reuses-components/input";
 import { cn } from "@/lib/utils";
+import { oneChatMessagesStoreZustand } from "@/app/store/one-chat-messages-store";
+import { userStoreZustand } from "@/app/store/user-store";
+import { chatsStoreZustand } from "@/app/store/chats-store";
+
 interface Props {
   className?: string;
 }
 
 export const ContentBottomBar: React.FC<Props> = ({ className }) => {
+  const token = userStoreZustand((state) => state.user.token);
+
+  const { postMessageToChat, getMessageFromChatSSE, fetchMessage } =
+    oneChatMessagesStoreZustand((state) => state);
+
+  const selectedChat = chatsStoreZustand((state) => state.selectedChat);
+  const [inputValue, setInputValue] = React.useState("");
+
+  const handlePostMessageToChat = async () => {
+    if (inputValue.trim() !== "") {
+      const body = {
+        chatId: selectedChat,
+        message: inputValue,
+      };
+      postMessageToChat(token, body);
+      getMessageFromChatSSE(token, selectedChat);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handlePostMessageToChat();
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
   return (
-    <div className={cn("",className)}>
+    <div className={cn("", className)}>
       <ContentDropdownComponent />
-      <Input className="mt-3 pl-4 pr-[60px] py-6 rounded-[10px]" placeholder="Спроси о чем-нибудь..." messagesPage={true} />
+      <Input
+        handlePostMessageToChat={handlePostMessageToChat}
+        className="mt-3 pl-4 pr-[60px] py-6 rounded-[10px]"
+        placeholder="Спроси о чем-нибудь..."
+        messagesPage={true}
+        value={inputValue}
+        onChange={(e) => handleInputChange(e)}
+        onKeyDown={handleKeyPress}
+      />
     </div>
   );
 };

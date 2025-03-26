@@ -14,6 +14,7 @@ export const ContentMessagesList: React.FC<Props> = ({ className }) => {
     chatMessagePage: { data: messages },
     loading,
   } = oneChatMessagesStoreZustand((state) => state);
+  console.log({ messages });
 
   return (
     <ul className={cn("flex flex-col gap-4", className)}>

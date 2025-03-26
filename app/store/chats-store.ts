@@ -5,12 +5,15 @@ import { StrippedPostChatDTO } from "@/types/PostChatDTO";
 interface IChatsStoreZustnad {
     loading: boolean
     chatPage: ChatPageDTO
+    selectedChat: string
     fetchChatPage: (token: string) => void
     createChat: (token: string, body: StrippedPostChatDTO) => void
     deleteChat: (token: string, id: string) => void
+    selectChat: (id: string) => void
 }
 export const chatsStoreZustand = create<IChatsStoreZustnad>((set) => ({
     loading: true,
+    selectedChat: "",
     chatPage: {
         data: [],
         pages: 0
@@ -53,5 +56,8 @@ export const chatsStoreZustand = create<IChatsStoreZustnad>((set) => ({
             console.log(error);
 
         }
+    },
+    selectChat: (id) => {
+        set({ selectedChat: id })
     }
 }))
