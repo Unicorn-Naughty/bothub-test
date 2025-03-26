@@ -55,7 +55,7 @@ export const DropdownLanguage: React.FC<Props> = () => {
           <div
             onClick={() => handleTestItemClick(item)}
             className={cn(
-              " text-white p-2 rounded-[8px]",
+              " text-white p-2 rounded-[8px] cursor-pointer",
               testItem.name === item.name && "bg-aiBgColor"
             )}
             key={i}

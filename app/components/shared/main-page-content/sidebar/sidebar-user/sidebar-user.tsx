@@ -1,12 +1,21 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { userStoreZustand } from "@/app/store/user-store";
+import { useRouter } from "next/navigation";
 
 interface Props {
   className?: string;
 }
 
 export const SidebarUser: React.FC<Props> = ({ className }) => {
+  const router = useRouter();
+  const user = userStoreZustand((state) => state.user);
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push("/login");
+  };
   const number = 9012;
   return (
     <div className={cn("flex items-center justify-between", className)}>
@@ -21,11 +30,11 @@ export const SidebarUser: React.FC<Props> = ({ className }) => {
           />
         </div>
         <div>
-          <figcaption>Василий</figcaption>
+          <figcaption>{user.email}</figcaption>
           <div className="uppercase">{number.toLocaleString("ru")} tkn</div>
         </div>
       </figure>
-      <button>
+      <button onClick={handleLogout}>
         <Image
           className=""
           width={18}
