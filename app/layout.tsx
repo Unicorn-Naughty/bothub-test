@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import { IBM_Plex_Sans } from "next/font/google";
