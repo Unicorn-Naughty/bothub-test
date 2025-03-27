@@ -39,8 +39,6 @@ export const ContentBottomBar: React.FC<Props> = ({ className }) => {
           message: inputValue,
         });
         setInputValue("");
-        console.log(newChat.id);
-
         getMessageFromChatSSE(token, newChat.id);
       }
     }
