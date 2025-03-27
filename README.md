@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BotHub тестовое задание
 
-## Getting Started
+Ссылка на деплой: https://bothub-test.vercel.app/
 
-First, run the development server:
+# Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+  1. Next / ts
+  2. zustand
+  3. Для сетевых запросов использвал axios
+  4. Стилизация tailwind/shadcn
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<!--Установка-->
+## Установка 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Клонирование репозитория 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```https://github.com/Unicorn-Naughty/bothub-test.git```
 
-## Learn More
+2. Переход в директорию bothub-test
 
-To learn more about Next.js, take a look at the following resources:
+```cd bothub-test```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Установка зависимостей
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```npm i ```
 
-## Deploy on Vercel
+4. Запуск для демонстрации возможностей bothub-test
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```npm run build```
+```npm run start```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Памятка
+
+1. Реализовал закрытие sidebar при адаптиве по хуку useClickAway, но тогда по клину на кнопку бургер меню происходит хаус. Так же реализовал когда мы можем закрыть меню только по кнопке. Не знал какой вариант оставить, оставил с useClickAway.
+2. Реализация аунтефикации, сделал на уровне page т.к всего две страницы, можно реализовать на уровне layout если требуется защитить много страниц или использовать библиотеку nextauth etc.
+3. Валидации никакой не настраивал, но ошибки под корректную реализацию через почту и пароль
+4. Чтобы не было мерцания можно на стороне сервера проверить, но тогда нужны куки а не локалсторадж
+5. При попытке получить данные по эндпоинту /chat/${id}/messages получаю 404 ошибку, как через свагер так и локально. В связи с этим не реализованно получение сообщений из своих чатов.
+6. Иконки у ии не подгрузил их просто нет, не получилось через patch chat/${id} обновить модель аи, ошибка  DEFAULT_MODULE_NOTFOUND. Получилось этим патчем обновить название чата, но по дизайну его реализации нет.
+7. В стримах иногда вылетает не валидный JSON. В связи с этим есть недочет, что ответ от ии может прерваться.
+
+
+  
