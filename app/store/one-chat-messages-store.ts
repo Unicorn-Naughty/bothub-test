@@ -60,7 +60,7 @@ export const oneChatMessagesStoreZustand = create<IOneChatMessagesStoreZustand>(
                         data: newData
                     }
                 }));
-            }, 100);
+            }, 25);
 
             for await (const message of response) {
                 set(state => {

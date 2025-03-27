@@ -4,7 +4,8 @@ import { getMessageTime } from "@/lib/get-message-time";
 import { cn } from "@/lib/utils";
 import { MessageEntity } from "@/types/MessageEntity";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import DOMPurify from "dompurify";
 
 interface Props {
   className?: string;
@@ -12,16 +13,26 @@ interface Props {
 }
 
 export const ContentAiMessage: React.FC<Props> = ({ className, message }) => {
+  const [accumulatedText, setAccumulatedText] = useState("");
+
+  useEffect(() => {
+    if (Array.isArray(message.content)) {
+      const completeText = message.content.join("");
+      setAccumulatedText(completeText);
+    } else {
+      setAccumulatedText(message.content || "");
+    }
+  }, [message.content]);
+
   const handleCopy = () => {
-    if (message.content) copyMessageText(message.content);
+    if (accumulatedText) copyMessageText(accumulatedText);
   };
 
   const time = getMessageTime(message.created_at);
   const label = message.model?.parent?.label
     ? message.model?.parent?.label
     : "";
-
-
+  const sanitizedText = DOMPurify.sanitize(accumulatedText);
 
   return (
     <li className={cn("flex items-center gap-4", className)}>
@@ -42,7 +53,10 @@ export const ContentAiMessage: React.FC<Props> = ({ className, message }) => {
           </span>
         </figure>
         <blockquote>
-          <p className="mb-2 text-[18px]">{message.content}</p>
+          <p
+            dangerouslySetInnerHTML={{ __html: sanitizedText }}
+            className="mb-2 text-[18px]"
+          ></p>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-[14px]">
               <span className="uppercase text-[16px] text-capsColor leading-[22px]">
