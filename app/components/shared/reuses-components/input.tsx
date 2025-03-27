@@ -5,7 +5,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   messagesPage?: boolean;
   placeholder: string;
-  handlePostMessageToChat: () => void;
+  handlePostMessageToChat?: () => void;
 }
 
 export const Input: React.FC<Props> = ({

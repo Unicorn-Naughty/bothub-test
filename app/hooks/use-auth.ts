@@ -24,7 +24,8 @@ export const useAuth = () => {
         };
 
         checkAuth();
-    }, [router, initializeUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return isAuthenticated;
 }

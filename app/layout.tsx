@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast";
 import { IBM_Plex_Sans } from "next/font/google";
 
 import "./globals.css";
-import { getMessagesFromChatSSE } from "./services/chats/chats";
+
 
 const ibmPlexSans = IBM_Plex_Sans({
   weight: ["400", "500", "600", "700"],

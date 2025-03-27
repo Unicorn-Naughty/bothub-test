@@ -10,7 +10,8 @@ export const useChatMessages = (id: string) => {
 
     React.useEffect(() => {
         chatMessageState.fetchMessage(token, id)
-    }, [token])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return { loading: chatMessageState.loading, messages: chatMessageState.chatMessagePage.data }
 }

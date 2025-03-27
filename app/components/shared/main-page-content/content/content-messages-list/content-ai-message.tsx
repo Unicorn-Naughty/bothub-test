@@ -1,10 +1,10 @@
-
+"use client";
 import { copyMessageText } from "@/lib/copy-message-text";
 import { getMessageTime } from "@/lib/get-message-time";
 import { cn } from "@/lib/utils";
 import { MessageEntity } from "@/types/MessageEntity";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 interface Props {
   className?: string;
@@ -12,16 +12,6 @@ interface Props {
 }
 
 export const ContentAiMessage: React.FC<Props> = ({ className, message }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   const handleCopy = () => {
     if (message.content) copyMessageText(message.content);
   };
@@ -31,9 +21,7 @@ export const ContentAiMessage: React.FC<Props> = ({ className, message }) => {
     ? message.model?.parent?.label
     : "";
 
-  if (!isVisible) {
-    return null;
-  }
+
 
   return (
     <li className={cn("flex items-center gap-4", className)}>
@@ -50,20 +38,16 @@ export const ContentAiMessage: React.FC<Props> = ({ className, message }) => {
             {label ? label : "label_name"}
           </figcaption>
           <span className="text-[14px] leading-[18px] bg-aiBgColor px-3 py-1 rounded-[14px]">
-            {message.model_id ? (
-              message.model_id
-            ) : (
-              "model_id"
-            )}
+            {message.model_id ? message.model_id : "model_id"}
           </span>
         </figure>
         <blockquote>
           <p className="mb-2 text-[18px]">{message.content}</p>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-[14px]">
-              <span className="uppercase text-[16px] text-capsColor leading-[22px]">{`-${
-                message.tokens ||0
-              } CAPS`}</span>
+              <span className="uppercase text-[16px] text-capsColor leading-[22px]">
+                {message.tokens ? `-${message.tokens} CAPS` : ""}
+              </span>
               <button onClick={handleCopy} className="min-w-[18px]">
                 <Image
                   alt="copy-icon"
@@ -73,9 +57,7 @@ export const ContentAiMessage: React.FC<Props> = ({ className, message }) => {
                 />
               </button>
             </div>
-            <time className="text-[12px]">
-              {time }
-            </time>
+            <time className="text-[12px]">{time}</time>
           </div>
         </blockquote>
       </div>

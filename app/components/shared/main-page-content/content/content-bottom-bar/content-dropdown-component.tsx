@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,12 +18,14 @@ export const ContentDropdownComponent: React.FC<Props> = () => {
   const { models, loading, setCurrentModel, currentModel } =
     aiModelsStoreZustand((state) => state);
   const cuttedModels = models.slice(0, 10);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (models.length > 0) {
       setCurrentModel(cuttedModels[0]);
     }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [models]);
 
   const handleTestItemClick = (item: ModelEntity) => {

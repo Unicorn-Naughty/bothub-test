@@ -14,7 +14,8 @@ export const useChats = () => {
         if (token) {
             chatsStore.fetchChatPage(token);
         }
-    }, [token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return { loading: chatsStore.loading, chats: chatsStore.chatPage.data };
 };
