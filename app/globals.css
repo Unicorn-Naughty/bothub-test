@@ -76,6 +76,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
+  
   background-color: #1C64F2; 
   border-radius: 10px; 
 }

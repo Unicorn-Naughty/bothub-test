@@ -40,6 +40,10 @@ export const DropdownLanguage: React.FC<Props> = () => {
           />
           <span>{testItem.name}</span>
           <Image
+            className={cn(
+              "transition-transform duration-300",
+              open ? "rotate-180" : "rotate-0"
+            )}
             src={"/messages/arrow-down.svg"}
             alt="chevron-down"
             width={16}

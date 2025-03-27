@@ -12,11 +12,13 @@ interface Props {
 }
 
 export const SidebarChat: React.FC<Props> = ({ className, chat }) => {
-  const { deleteChat, selectChat } = chatsStoreZustand((state) => state);
+  const { deleteChat, selectChat, selectedChat } = chatsStoreZustand(
+    (state) => state
+  );
 
   const token = userStoreZustand((state) => state.user.token);
-  const fetchMessage= oneChatMessagesStoreZustand(
-    (state) => state.getMessageFromChatSSE
+  const fetchMessage = oneChatMessagesStoreZustand(
+    (state) => state.fetchMessage
   );
 
   const handleDeleteChat = (id: string, token: string) => {
@@ -34,17 +36,32 @@ export const SidebarChat: React.FC<Props> = ({ className, chat }) => {
         onClick={() => handleFetchMessages(chat.id)}
         className="flex items-center gap-2 cursor-pointer"
       >
-        <MessageSquare className="size-[18px] text-helperTextColor font-medium" />
+        <MessageSquare
+          className={cn(
+            "size-[18px] text-helperTextColor font-medium",
+            selectedChat === chat.id && "text-white"
+          )}
+        />
 
         <blockquote>
-          <p className="w-[200px]  text-helperTextColor text-[16px] leading-[22px] text-ellipsis overflow-hidden whitespace-nowrap">
+          <p
+            className={cn(
+              "w-[200px]  text-helperTextColor text-[16px] leading-[22px] text-ellipsis overflow-hidden whitespace-nowrap transition-colors",
+              selectedChat === chat.id && "font-semibold text-white"
+            )}
+          >
             {chat.name}
           </p>
         </blockquote>
       </div>
 
       <button onClick={() => handleDeleteChat(chat.id, token)}>
-        <Trash className="size-[18px] text-helperTextColor" />
+        <Trash
+          className={cn(
+            "size-[18px] text-helperTextColor",
+            selectedChat === chat.id && "text-white"
+          )}
+        />
       </button>
     </li>
   );

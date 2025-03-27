@@ -29,17 +29,17 @@ export const userStoreZustand = create<IUserStore>((set) => ({
     set({ user: userData });
   },
   initializeUser: () => {
-    if (typeof window !== "undefined") {
-      const storedUserData = localStorage.getItem("userData");
-      if (storedUserData) {
-        try {
-          const initialUser = JSON.parse(storedUserData);
-          set({ user: initialUser });
-        } catch (error) {
-          console.error("Failed to parse userData from localStorage", error);
-        }
+
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      try {
+        const initialUser = JSON.parse(storedUserData);
+        set({ user: initialUser });
+      } catch (error) {
+        console.error("Failed to parse userData from localStorage", error);
       }
     }
+
   },
 }));
 

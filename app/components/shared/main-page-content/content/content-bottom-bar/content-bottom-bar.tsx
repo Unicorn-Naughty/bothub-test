@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { ContentDropdownComponent } from "./content-dropdown-component";
 import { Input } from "../../../reuses-components/input";
@@ -12,21 +13,36 @@ interface Props {
 
 export const ContentBottomBar: React.FC<Props> = ({ className }) => {
   const token = userStoreZustand((state) => state.user.token);
-
-  const { postMessageToChat, getMessageFromChatSSE, fetchMessage } =
+  const { createChat } = chatsStoreZustand((state) => state);
+  const { fetchMessage, postMessageToChat, getMessageFromChatSSE } =
     oneChatMessagesStoreZustand((state) => state);
 
-  const selectedChat = chatsStoreZustand((state) => state.selectedChat);
+  const { selectedChat, selectChat } = chatsStoreZustand((state) => state);
   const [inputValue, setInputValue] = React.useState("");
 
   const handlePostMessageToChat = async () => {
     if (inputValue.trim() !== "") {
-      const body = {
-        chatId: selectedChat,
-        message: inputValue,
-      };
-      postMessageToChat(token, body);
-      getMessageFromChatSSE(token, selectedChat);
+      if (selectedChat) {
+        const body = {
+          chatId: selectedChat,
+          message: inputValue,
+        };
+        setInputValue("");
+        postMessageToChat(token, body);
+        getMessageFromChatSSE(token, selectedChat);
+      } else {
+        const newChat = await createChat(token, { name: "Новый чат" });
+        selectChat(newChat.id);
+        fetchMessage(token, newChat.id);
+        postMessageToChat(token, {
+          chatId: newChat.id,
+          message: inputValue,
+        });
+        setInputValue("");
+        console.log(newChat.id);
+
+        getMessageFromChatSSE(token, newChat.id);
+      }
     }
   };
 

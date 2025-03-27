@@ -18,6 +18,11 @@ export type MessageEntity = {
     model_id?: string
     created_at: string
     transaction?: TransactionEntity
+    model?: {
+        parent?: {
+            label: string
+        }
+    }
 }
 
 export type ResponseMessageEntity = Omit<MessageEntity, "transaction">

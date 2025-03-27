@@ -8,9 +8,7 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = ({ className }) => {
-  const { open, changeStateOpen } = sideBarStateStore((state) => state);
-  console.log(open);
-
+  const {  changeStateOpen } = sideBarStateStore((state) => state);
   return (
     <header className={cn("p-5 bg-elemColor rounded-[20px] hidden max-[750px]:block", className)}>
       <button onClick={changeStateOpen}>

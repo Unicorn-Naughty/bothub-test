@@ -1,7 +1,7 @@
 import { ChatPageDTO } from "@/types/ChatPageDTO"
 import { instance } from "../instance"
 import { StrippedPostChatDTO } from "@/types/PostChatDTO"
-import { ChatEntity } from "@/types/ChatEntity"
+import { ChatEntity, PatchChatEntityRequest } from "@/types/ChatEntity"
 import { ChatPageMessageDTO } from "@/types/ChatPageMessageDTO"
 import { clearChunks } from "@/lib/streams"
 
@@ -46,7 +46,6 @@ export const getMessagesFromChat = async (token: string, id: string) => {
 }
 
 export async function* getMessagesFromChatSSE(token: string, id: string) {
-    // export const getMessagesFromChatSSE = async () => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API}/chat/${id}/stream`, {
         method: "GET",
         headers: {
@@ -56,17 +55,17 @@ export async function* getMessagesFromChatSSE(token: string, id: string) {
     })
 
     if (!response.body) {
-        throw new Error('sucks')
+        throw new Error('no body')
     }
 
     const reader = response.body.getReader()
     const decoder = new TextDecoder()
     const chunks = []
 
-    while (true) {  // Изменили условие цикла
+    while (true) {
         const { value, done } = await reader.read()
 
-        if (done) {  // Проверяем done здесь
+        if (done) {
             break;
         }
 
@@ -74,33 +73,20 @@ export async function* getMessagesFromChatSSE(token: string, id: string) {
         chunks.push(decodedChunk)
         const cleanChunks = clearChunks(decodedChunk)
         for (const chunk of cleanChunks) {
-            if(chunk.name === "MESSAGE_UPDATE"){
-                yield chunk.data.message.content
+            if (chunk.name === "MESSAGE_UPDATE") {
+                yield chunk.data.message
             }
         }
-        // console.log(cleanChunks);
     }
-
-    // return chunks; // Добавим возврат chunks
 }
 
-// const { data } = await instance.get(`/chat/${id}/stream`, {
-//     headers: {
-//         'Authorization': `Bearer ${token}`,
-//         // 'Content-Type': 'application/json'
-//         "Content-Type": "application/octet-stream"
-//     },
-//     responseType: "stream"
-// })
-// console.log(data);
-
-// const data = await instance.get(`/chat/${id}/stream`, {
-//     headers: {
-//         'Authorization': `Bearer ${token}`,
-//         // 'Content-Type': 'application/json'
-//         "Content-Type": "application/octet-stream"
-//     },
-//     responseType: "stream",
-//     adapter: "fetch"
-// })
+export const patchChat = async (token: string, id: string, body: PatchChatEntityRequest) => {
+    const { data } = await instance.patch<ChatEntity>(`/chat/${id}`, body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    return data
+}
 

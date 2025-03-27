@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { ContentClientMessage } from "./content-client-message";
 import { ContentAiMessage } from "./content-ai-message";
 import { cn } from "@/lib/utils";
 import { oneChatMessagesStoreZustand } from "@/app/store/one-chat-messages-store";
 import ClipLoader from "react-spinners/ClipLoader";
+
 interface Props {
   className?: string;
 }
@@ -14,10 +15,17 @@ export const ContentMessagesList: React.FC<Props> = ({ className }) => {
     chatMessagePage: { data: messages },
     loading,
   } = oneChatMessagesStoreZustand((state) => state);
-  console.log({ messages });
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
-    <ul className={cn("flex flex-col gap-4", className)}>
+    <ul className={cn("flex flex-col gap-4 pr-2", className)}>
       {loading ? (
         <div className="flex flex-col items-center justify-center h-full">
           <ClipLoader
@@ -30,25 +38,28 @@ export const ContentMessagesList: React.FC<Props> = ({ className }) => {
           <p className="mt-4">Ожидаем пока вы начнете чат...</p>
         </div>
       ) : messages.length <= 0 ? (
-        <p className="flex flex-col  justify-center h-full text-center">
+        <p className="flex flex-col justify-center h-full text-center">
           У вас пока что нет сообщений в этом чате. Давайте начнем общение!
         </p>
       ) : (
-        messages.map((message, i) =>
-          message.role === "user" ? (
-            <ContentClientMessage
-              message={message}
-              key={i}
-              className="self-end"
-            />
-          ) : (
-            <ContentAiMessage
-              message={message}
-              key={i}
-              className="self-start"
-            />
-          )
-        )
+        <>
+          {messages.map((message, i) =>
+            message.role === "user" ? (
+              <ContentClientMessage
+                message={message}
+                key={i}
+                className="self-end"
+              />
+            ) : (
+              <ContentAiMessage
+                message={message}
+                key={i}
+                className="self-start"
+              />
+            )
+          )}
+          <div ref={messagesEndRef} />
+        </>
       )}
     </ul>
   );

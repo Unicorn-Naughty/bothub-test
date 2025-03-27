@@ -8,3 +8,12 @@ export type ChatEntity = {
     model_id: string
     created_at: string
 }
+
+export type PatchChatEntityRequest  = {
+    name?: string,
+    highlight?: string
+    modelId?: string
+    modelFunctionId?: string
+    initial?: boolean
+    groupId?: string
+}

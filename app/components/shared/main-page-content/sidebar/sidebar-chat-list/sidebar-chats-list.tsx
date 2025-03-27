@@ -11,7 +11,6 @@ interface Props {
 
 export const SidebarChatsList: React.FC<Props> = ({ className }) => {
   const { loading, chats } = useChats();
-  console.log(chats);
   
   return (
     <ul className={cn("flex flex-col gap-1", className)}>

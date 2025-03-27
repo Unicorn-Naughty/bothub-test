@@ -13,13 +13,12 @@ export const ContentClientMessage: React.FC<Props> = ({
   className,
   message,
 }) => {
-
   const handleCopy = () => {
-    copyMessageText(message.content);
+    if (message.content) copyMessageText(message.content);
   };
 
   const time = getMessageTime(message.created_at);
-  
+
   return (
     <li className={cn("list-none flex items-end gap-2.5", className)}>
       <button onClick={handleCopy} className="min-w-[18px]">
@@ -30,7 +29,7 @@ export const ContentClientMessage: React.FC<Props> = ({
           height={18}
         />
       </button>
-      <blockquote className="bg-clientMessageColor relative rounded-[10px] p-4 pr-0 rounded-br-none text-pretty">
+      <blockquote className="bg-clientMessageColor relative rounded-[10px] p-4 pr-2 rounded-br-none text-pretty">
         <p className="text-[18px] min-w-[164px]">{message.content}</p>
         <time className="text-[12px] absolute bottom-1 right-2">{time}</time>
       </blockquote>
