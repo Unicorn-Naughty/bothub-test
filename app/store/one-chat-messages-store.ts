@@ -25,13 +25,15 @@ export const oneChatMessagesStoreZustand = create<IOneChatMessagesStoreZustand>(
         data: [],
         pages: 0
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     fetchMessage: async (token, id) => {
         try {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const response = await clientApi.chats.getMessagesFromChat(token, id);
+            
+            const response: never[] = []
+            // await clientApi.chats.getMessagesFromChat(token, id);
             set({
                 chatMessagePage: {
-                    data: [],
+                    data: response,
                     pages: 0
                 }
             });
