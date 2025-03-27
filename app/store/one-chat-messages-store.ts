@@ -9,10 +9,7 @@ import { debounce } from "@/lib/debounce-func";
 interface IOneChatMessagesStoreZustand {
     loading: boolean;
     error: string
-    chatMessagePage: ChatPageMessageDTO | {
-        data: [],
-        pages: 0
-    };
+    chatMessagePage: ChatPageMessageDTO
     fetchMessage: (token: string, id: string) => void;
     postMessageToChat: (token: string, body: MessageSendRequest) => void;
     getMessageFromChatSSE: (token: string, id: string) => void;
@@ -25,17 +22,12 @@ export const oneChatMessagesStoreZustand = create<IOneChatMessagesStoreZustand>(
         data: [],
         pages: 0
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     fetchMessage: async (token, id) => {
         try {
-            
-            const response: never[] = []
-            // await clientApi.chats.getMessagesFromChat(token, id);
+            const response = await clientApi.messages.getMessagesFromChat(token, id);
             set({
-                chatMessagePage: {
-                    data: response,
-                    pages: 0
-                }
+                chatMessagePage: response
             });
         } catch (error) {
             console.log(error);

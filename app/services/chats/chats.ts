@@ -2,7 +2,6 @@ import { ChatPageDTO } from "@/types/ChatPageDTO"
 import { instance } from "../instance"
 import { StrippedPostChatDTO } from "@/types/PostChatDTO"
 import { ChatEntity, PatchChatEntityRequest } from "@/types/ChatEntity"
-import { ChatPageMessageDTO } from "@/types/ChatPageMessageDTO"
 import { clearChunks } from "@/lib/streams"
 
 export const getAllChats = async (token: string) => {
@@ -35,15 +34,7 @@ export const deleteChat = async (token: string, id: string) => {
     return data
 }
 
-export const getMessagesFromChat = async (token: string, id: string) => {
-    const { data } = await instance.get<ChatPageMessageDTO>(`/chat/${id}/messages`, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    })
-    return data
-}
+
 
 export async function* getMessagesFromChatSSE(token: string, id: string) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API}/chat/${id}/stream`, {
